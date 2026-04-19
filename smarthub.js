@@ -113,7 +113,6 @@ function getTileImageUrl(item) {
 
 
 
-
 /**
  * Creates a JSON object representing one title for the smart view.
  *
@@ -191,7 +190,6 @@ function getTileImageUrl(item) {
  *                   If no valid sections are provided, the returned object will have an empty `sections` array.
  */
   function generateSmartViewJson(sectionsData) {
-
 
     // Validate input data
     if (!Array.isArray(sectionsData) || sectionsData.length === 0) {
@@ -292,7 +290,6 @@ function getTileImageUrl(item) {
     while (typeof ApiClient === 'undefined') {
       await new Promise(resolve => setTimeout(resolve, 1000));
     }
-
 
     const runSmartViewUpdate = async () => {
       window.smartHubUpdated = false;
