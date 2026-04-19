@@ -98,4 +98,4 @@ module.exports.onStop = function () {
 
 module.exports.onExit = function () {
     logAndSend("Service exiting...");
-} 
+}

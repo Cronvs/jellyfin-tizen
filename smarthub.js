@@ -113,10 +113,10 @@ function getTileImageUrl(item) {
 
 
 
-  
+
 /**
  * Creates a JSON object representing one title for the smart view.
- * 
+ *
  * @param {Object} title_data - The title data containing details about the media items.
  * @param {string} title_data.ServerId - The server ID associated with the media.
  * @param {string} title_data.Id - The unique ID of the "Episode"
@@ -146,7 +146,7 @@ function getTileImageUrl(item) {
 
     var imgURL = getTileImageUrl(title_data);
 
-    
+
     if(title_data.Type =="Episode"){
 
       action_data.type = 'episode';
@@ -154,7 +154,7 @@ function getTileImageUrl(item) {
       action_data.seriesid = title_data.SeriesId;
       series_episode = "";
       if (title_data.ParentIndexNumber !== undefined  && title_data.IndexNumber !== undefined)
-        series_episode = "S" + title_data.ParentIndexNumber + ":E" + title_data.IndexNumber + " - " 
+        series_episode = "S" + title_data.ParentIndexNumber + ":E" + title_data.IndexNumber + " - "
 
       title = {
       title: series_episode + title_data.Name,
@@ -180,18 +180,18 @@ function getTileImageUrl(item) {
 
 /**
  * Creates a JSON object for the smart view containing multiple sections and their tiles.
- * 
+ *
  * @param {Array<Object>} sectionsData - Array of objects representing each section's metadata and content.
  * @param {string} sectionsData[].section_title - Title of the section (e.g., "Next Up", "Continue Watching").
  * @param {number} sectionsData[].limit - Maximum number of items to include in the section.
  * @param {Array<Object>} sectionsData[].data - Array of media items to populate the section's tiles.
- * 
+ *
  * @returns {Object} A JSON object with `sections` for the smart view.
  *                   Each section contains a title and an array of tiles.
  *                   If no valid sections are provided, the returned object will have an empty `sections` array.
  */
   function generateSmartViewJson(sectionsData) {
- 
+
 
     // Validate input data
     if (!Array.isArray(sectionsData) || sectionsData.length === 0) {
@@ -221,7 +221,7 @@ function getTileImageUrl(item) {
 
   /**
    * Launches the Tizen application and send Smartview data
-   * 
+   *
    * @param {Object} smartViewJsonData - The title data containing details about the media items.
    * @throws {Error} Logs any error encountered during the service launch process.
   */
@@ -252,7 +252,7 @@ function getTileImageUrl(item) {
 
   /**
    * Callback function for receiving messages from the Tizen service.
-   * 
+   *
    * @param {Array<Object>} ui_data - The received data array from the service.
    */
   var OnReceived = function (ui_data) {
@@ -268,10 +268,10 @@ function getTileImageUrl(item) {
     return new Promise((resolve) => {
         const interval = setInterval(() => {
             if (window.smartHubUpdated === true) {
-                clearInterval(interval); 
-                resolve(); 
+                clearInterval(interval);
+                resolve();
             }
-        }, 100); 
+        }, 100);
     });
 };
 
@@ -279,7 +279,7 @@ function getTileImageUrl(item) {
 
   /**
    * Delays execution for a specified time.
-   * 
+   *
    * @param {number} time - Time in milliseconds to delay.
    * @returns {Promise} A promise that resolves after the specified delay.
    */
@@ -288,11 +288,11 @@ function getTileImageUrl(item) {
   }
 
   (async function runSmartViewUpdater() {
-  
+
     while (typeof ApiClient === 'undefined') {
       await new Promise(resolve => setTimeout(resolve, 1000));
     }
-  
+
 
     const runSmartViewUpdate = async () => {
       window.smartHubUpdated = false;
@@ -333,19 +333,17 @@ function getTileImageUrl(item) {
         window.smartHubUpdated = true;
       }
     };
-  
+
     window.runSmartViewUpdate = runSmartViewUpdate;
-    
+
     // Refresh SmartView every 10min.
     while (true) {
       const startTime = Date.now();
-  
+
       await runSmartViewUpdate();
-  
+
       const elapsedTime = Date.now() - startTime;
       const remainingTime = Math.max(600000 - elapsedTime, 0);
       await new Promise(resolve => setTimeout(resolve, remainingTime));
     }
   })();
-
-
